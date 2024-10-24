@@ -5,6 +5,7 @@ import com.name.vehicleregistration.model.entity.Car;
 import com.name.vehicleregistration.repository.CarRepository;
 import com.name.vehicleregistration.service.CarService;
 import com.name.vehicleregistration.service.converters.CarConverter;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,13 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarConverter carConverter;
 
+    @Transactional
     public  CarModel addCar(CarModel carModel){
         Car car = carRepository.save(carConverter.toEntity(carModel));
         return carConverter.toModel(car);
     }
 
+    @Transactional
     public CarModel getCarById(Integer id) {
         Optional<Car> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){
@@ -34,6 +37,7 @@ public class CarServiceImpl implements CarService {
         return null;
     }
 
+    @Transactional
     public CarModel updateCar(Integer id,CarModel carModel){
         Optional<Car> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){
@@ -42,7 +46,7 @@ public class CarServiceImpl implements CarService {
             carUpdate.setModel(carModel.getModel());
             carUpdate.setMilleage(carModel.getMilleage());
             carUpdate.setPrice(carModel.getPrice());
-            carUpdate.setModel_year(carModel.getModel_year());
+            carUpdate.setModelYear(carModel.getModelYear());
             carUpdate.setDescription(carModel.getDescription());
             carUpdate.setColour(carModel.getColour());
             carUpdate.setFuelType(carModel.getFuelType());
@@ -53,6 +57,7 @@ public class CarServiceImpl implements CarService {
         return  null;
     }
 
+    @Transactional
     public CarModel deleteById(Integer id){
         Optional<Car> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){

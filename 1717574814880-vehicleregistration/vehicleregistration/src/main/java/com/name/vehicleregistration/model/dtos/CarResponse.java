@@ -13,7 +13,7 @@ public class CarResponse {
     private String model;
     private Integer milleage;
     private Double price;
-    private Integer model_year;
+    private Integer modelYear;
     private String description;
     private String colour;
     private String fuelType;

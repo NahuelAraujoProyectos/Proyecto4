@@ -27,10 +27,10 @@ public class CarController {
         try {
             CarResponse carResponse = carMapper.toResponse(carService.addCar(carMapper.toModel(carRequest)));
             log.info("Coche añadido correctamente");
-            return ResponseEntity.ok(carResponse); // 200 OK
+            return ResponseEntity.ok(carResponse);
         } catch (Exception e) {
             log.error("POST - Error en el servidor: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor"); // 500 Internal Server Error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor");
         }
     }
 
