@@ -2,6 +2,7 @@ package com.name.vehicleregistration.service;
 
 import com.name.vehicleregistration.controller.dtos.CarRequest;
 import com.name.vehicleregistration.controller.dtos.CarResponse;
+import com.name.vehicleregistration.model.Car;
 
 
 public interface CarService {

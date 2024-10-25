@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @RestController
 @RequestMapping("/cars")
@@ -42,9 +44,12 @@ public class CarController {
             CarResponse carResponse = carService.getCarById(id);
             log.info("Coche hallado correctamente");
             return ResponseEntity.ok(carResponse);
-        }catch (Exception e){
-            log.error("GET - Elemento no encontrado: {}", e.getMessage());
-            return ResponseEntity.notFound().build();
+        } catch (NoSuchElementException e) {
+            log.warn("GET - {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Coche no encontrado");
+        } catch (Exception e) {
+            log.error("GET - Error en el servidor: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor");
         }
     }
 
@@ -58,8 +63,8 @@ public class CarController {
             return ResponseEntity.ok(carResponse);
         }
         catch (Exception e){
-            log.error("PUT - Elemento no encontrado: {}", e.getMessage());
-            return ResponseEntity.notFound().build();
+            log.error("PUT - {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Coche no encontrado");
         }
     }
 
@@ -67,12 +72,15 @@ public class CarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCar (@PathVariable Integer id){
         try {
-            CarResponse carResponse = carService.deleteById(id);
+            CarResponse car = carService.deleteById(id);
             log.info("Coche eliminado correctamente");
-            return ResponseEntity.ok(carResponse);
-        } catch (Exception e){
-            log.error("DELETE - Elemento no encontrado: {}", e.getMessage());
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(car);
+        } catch (NoSuchElementException e) {
+            log.warn("DELETE - {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Coche no encontrado");
+        } catch (Exception e) {
+            log.error("DELETE - Error en el servidor: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor");
         }
     }
 }

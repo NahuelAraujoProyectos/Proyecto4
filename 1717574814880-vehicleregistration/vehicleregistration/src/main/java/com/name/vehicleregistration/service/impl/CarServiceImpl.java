@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -31,44 +32,44 @@ public class CarServiceImpl implements CarService {
         return carMapper.toResponse(carConverter.toModel(carEntity));
     }
 
-    @Transactional
+
     public CarResponse getCarById(Integer id) {
         Optional<CarEntity> carOptional = carRepository.findById(id);
-        if(carOptional.isPresent()){
-            CarEntity carEntity = carOptional.get();
-            return carMapper.toResponse(carConverter.toModel(carEntity));
+        if(carOptional.isEmpty()){
+            throw new NoSuchElementException("Coche con ID " + id + " no encontrado.");
         }
-        return null;
+        CarEntity carEntity = carOptional.get();
+        return carMapper.toResponse(carConverter.toModel(carEntity));
     }
 
-    @Transactional
+
     public CarResponse updateCar(Integer id, CarRequest carRequest){
         Optional<CarEntity> carOptional = carRepository.findById(id);
-        if(carOptional.isPresent()){
-            CarEntity carEntityUpdate = carOptional.get();
-            carEntityUpdate.setBrand(carRequest.getBrand());
-            carEntityUpdate.setModel(carRequest.getModel());
-            carEntityUpdate.setMilleage(carRequest.getMilleage());
-            carEntityUpdate.setPrice(carRequest.getPrice());
-            carEntityUpdate.setModelYear(carRequest.getModelYear());
-            carEntityUpdate.setDescription(carRequest.getDescription());
-            carEntityUpdate.setColour(carRequest.getColour());
-            carEntityUpdate.setFuelType(carRequest.getFuelType());
-            carEntityUpdate.setNumDoors(carRequest.getNumDoors());
-            carRepository.save(carEntityUpdate);
-            return carMapper.toResponse(carConverter.toModel(carEntityUpdate));
+        if(carOptional.isEmpty()){
+            throw new NoSuchElementException("Coche con ID " + id + " no encontrado.");
         }
-        return  null;
+        CarEntity carEntityUpdate = carOptional.get();
+        carEntityUpdate.setBrand(carRequest.getBrand());
+        carEntityUpdate.setModel(carRequest.getModel());
+        carEntityUpdate.setMilleage(carRequest.getMilleage());
+        carEntityUpdate.setPrice(carRequest.getPrice());
+        carEntityUpdate.setModelYear(carRequest.getModelYear());
+        carEntityUpdate.setDescription(carRequest.getDescription());
+        carEntityUpdate.setColour(carRequest.getColour());
+        carEntityUpdate.setFuelType(carRequest.getFuelType());
+        carEntityUpdate.setNumDoors(carRequest.getNumDoors());
+        carRepository.save(carEntityUpdate);
+        return carMapper.toResponse(carConverter.toModel(carEntityUpdate));
     }
 
-    @Transactional
+
     public CarResponse deleteById(Integer id){
         Optional<CarEntity> carOptional = carRepository.findById(id);
-        if(carOptional.isPresent()){
-            CarEntity carEntityDeleted = carOptional.get();
-            carRepository.deleteById(id);
-            return carMapper.toResponse(carConverter.toModel(carEntityDeleted));
+        if (carOptional.isEmpty()) {
+            throw new NoSuchElementException("Coche con ID " + id + " no encontrado.");
         }
-        return null;
+        CarEntity carEntityDeleted = carOptional.get();
+        carRepository.deleteById(id);
+        return carMapper.toResponse(carConverter.toModel(carEntityDeleted));
     }
 }
