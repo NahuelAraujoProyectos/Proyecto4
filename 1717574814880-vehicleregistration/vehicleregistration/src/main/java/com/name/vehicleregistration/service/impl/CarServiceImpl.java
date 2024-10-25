@@ -7,7 +7,6 @@ import com.name.vehicleregistration.entity.CarEntity;
 import com.name.vehicleregistration.repository.CarRepository;
 import com.name.vehicleregistration.service.CarService;
 import com.name.vehicleregistration.service.converters.CarConverter;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarConverter carConverter;
 
-    @Transactional
     public CarResponse addCar(CarRequest carRequest){
         CarEntity carEntity = carRepository.save(carConverter.toEntity(carMapper.toModel(carRequest)));
         return carMapper.toResponse(carConverter.toModel(carEntity));
