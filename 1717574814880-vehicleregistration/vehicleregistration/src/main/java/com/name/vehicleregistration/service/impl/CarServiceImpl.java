@@ -1,7 +1,9 @@
 package com.name.vehicleregistration.service.impl;
 
-import com.name.vehicleregistration.model.CarModel;
-import com.name.vehicleregistration.model.entity.Car;
+import com.name.vehicleregistration.controller.dtos.CarRequest;
+import com.name.vehicleregistration.controller.dtos.CarResponse;
+import com.name.vehicleregistration.controller.mappers.CarMapper;
+import com.name.vehicleregistration.entity.CarEntity;
 import com.name.vehicleregistration.repository.CarRepository;
 import com.name.vehicleregistration.service.CarService;
 import com.name.vehicleregistration.service.converters.CarConverter;
@@ -19,51 +21,53 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarRepository carRepository;
     @Autowired
+    private CarMapper carMapper;
+    @Autowired
     private CarConverter carConverter;
 
     @Transactional
-    public  CarModel addCar(CarModel carModel){
-        Car car = carRepository.save(carConverter.toEntity(carModel));
-        return carConverter.toModel(car);
+    public CarResponse addCar(CarRequest carRequest){
+        CarEntity carEntity = carRepository.save(carConverter.toEntity(carMapper.toModel(carRequest)));
+        return carMapper.toResponse(carConverter.toModel(carEntity));
     }
 
     @Transactional
-    public CarModel getCarById(Integer id) {
-        Optional<Car> carOptional = carRepository.findById(id);
+    public CarResponse getCarById(Integer id) {
+        Optional<CarEntity> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){
-            Car car = carOptional.get();
-            return carConverter.toModel(car);
+            CarEntity carEntity = carOptional.get();
+            return carMapper.toResponse(carConverter.toModel(carEntity));
         }
         return null;
     }
 
     @Transactional
-    public CarModel updateCar(Integer id,CarModel carModel){
-        Optional<Car> carOptional = carRepository.findById(id);
+    public CarResponse updateCar(Integer id, CarRequest carRequest){
+        Optional<CarEntity> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){
-            Car carUpdate = carOptional.get();
-            carUpdate.setBrand(carModel.getBrand());
-            carUpdate.setModel(carModel.getModel());
-            carUpdate.setMilleage(carModel.getMilleage());
-            carUpdate.setPrice(carModel.getPrice());
-            carUpdate.setModelYear(carModel.getModelYear());
-            carUpdate.setDescription(carModel.getDescription());
-            carUpdate.setColour(carModel.getColour());
-            carUpdate.setFuelType(carModel.getFuelType());
-            carUpdate.setNumDoors(carModel.getNumDoors());
-            carRepository.save(carUpdate);
-            return carConverter.toModel(carUpdate);
+            CarEntity carEntityUpdate = carOptional.get();
+            carEntityUpdate.setBrand(carRequest.getBrand());
+            carEntityUpdate.setModel(carRequest.getModel());
+            carEntityUpdate.setMilleage(carRequest.getMilleage());
+            carEntityUpdate.setPrice(carRequest.getPrice());
+            carEntityUpdate.setModelYear(carRequest.getModelYear());
+            carEntityUpdate.setDescription(carRequest.getDescription());
+            carEntityUpdate.setColour(carRequest.getColour());
+            carEntityUpdate.setFuelType(carRequest.getFuelType());
+            carEntityUpdate.setNumDoors(carRequest.getNumDoors());
+            carRepository.save(carEntityUpdate);
+            return carMapper.toResponse(carConverter.toModel(carEntityUpdate));
         }
         return  null;
     }
 
     @Transactional
-    public CarModel deleteById(Integer id){
-        Optional<Car> carOptional = carRepository.findById(id);
+    public CarResponse deleteById(Integer id){
+        Optional<CarEntity> carOptional = carRepository.findById(id);
         if(carOptional.isPresent()){
-            Car carDeleted = carOptional.get();
+            CarEntity carEntityDeleted = carOptional.get();
             carRepository.deleteById(id);
-            return carConverter.toModel(carDeleted);
+            return carMapper.toResponse(carConverter.toModel(carEntityDeleted));
         }
         return null;
     }

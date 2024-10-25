@@ -1,28 +1,13 @@
 package com.name.vehicleregistration.service.converters;
 
-import com.name.vehicleregistration.model.CarModel;
-import com.name.vehicleregistration.model.entity.Car;
+import com.name.vehicleregistration.model.Car;
+import com.name.vehicleregistration.entity.CarEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CarConverter {
-    public Car toEntity (CarModel carModel){
-        return Car.builder()
-                .brand(carModel.getBrand())
-                .model(carModel.getModel())
-                .milleage(carModel.getMilleage())
-                .price(carModel.getPrice())
-                .modelYear(carModel.getModelYear())
-                .description(carModel.getDescription())
-                .colour(carModel.getColour())
-                .fuelType(carModel.getFuelType())
-                .numDoors(carModel.getNumDoors())
-                .build();
-    }
-
-    public CarModel toModel (Car car){
-        return CarModel.builder()
-                .id(car.getId())
+    public CarEntity toEntity (Car car){
+        return CarEntity.builder()
                 .brand(car.getBrand())
                 .model(car.getModel())
                 .milleage(car.getMilleage())
@@ -32,6 +17,21 @@ public class CarConverter {
                 .colour(car.getColour())
                 .fuelType(car.getFuelType())
                 .numDoors(car.getNumDoors())
+                .build();
+    }
+
+    public Car toModel (CarEntity carEntity){
+        return Car.builder()
+                .id(carEntity.getId())
+                .brand(carEntity.getBrand())
+                .model(carEntity.getModel())
+                .milleage(carEntity.getMilleage())
+                .price(carEntity.getPrice())
+                .modelYear(carEntity.getModelYear())
+                .description(carEntity.getDescription())
+                .colour(carEntity.getColour())
+                .fuelType(carEntity.getFuelType())
+                .numDoors(carEntity.getNumDoors())
                 .build();
     }
 }

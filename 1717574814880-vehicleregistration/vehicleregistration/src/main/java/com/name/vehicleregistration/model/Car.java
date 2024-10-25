@@ -1,4 +1,4 @@
-package com.name.vehicleregistration.model.dtos;
+package com.name.vehicleregistration.model;
 
 import lombok.*;
 
@@ -7,7 +7,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarRequest {
+public class Car {
+    private Integer id;
     private String brand;
     private String model;
     private Integer milleage;

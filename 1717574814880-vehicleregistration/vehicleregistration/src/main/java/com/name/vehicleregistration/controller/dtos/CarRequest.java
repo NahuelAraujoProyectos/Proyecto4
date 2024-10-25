@@ -1,20 +1,13 @@
-package com.name.vehicleregistration.model.entity;
+package com.name.vehicleregistration.controller.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.*;
 
-@Entity
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Car {
-    @Id
-    @GeneratedValue
-    private Integer id;
+public class CarRequest {
     private String brand;
     private String model;
     private Integer milleage;

@@ -1,13 +1,21 @@
-package com.name.vehicleregistration.model;
+package com.name.vehicleregistration.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
+@Entity
 @Data
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarModel {
+@Table(name = "car")
+public class CarEntity {
+    @Id
+    @GeneratedValue
     private Integer id;
     private String brand;
     private String model;

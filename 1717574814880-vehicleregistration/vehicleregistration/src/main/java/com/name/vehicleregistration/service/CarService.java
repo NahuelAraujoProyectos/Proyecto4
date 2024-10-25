@@ -1,17 +1,12 @@
 package com.name.vehicleregistration.service;
 
-import com.name.vehicleregistration.model.CarModel;
-import com.name.vehicleregistration.model.entity.Car;
+import com.name.vehicleregistration.controller.dtos.CarRequest;
+import com.name.vehicleregistration.controller.dtos.CarResponse;
 
-import java.util.Optional;
 
 public interface CarService {
-    private Optional<Car> getCar(Integer id){
-        return Optional.empty();
-    };
-
-    public  CarModel addCar(CarModel carModel);
-    public CarModel getCarById(Integer id);
-    public CarModel updateCar(Integer id, CarModel carModel);
-    public CarModel deleteById(Integer id);
+    public CarResponse addCar(CarRequest carRequest);
+    public CarResponse getCarById(Integer id);
+    public CarResponse updateCar(Integer id, CarRequest carRequest);
+    public CarResponse deleteById(Integer id);
 }

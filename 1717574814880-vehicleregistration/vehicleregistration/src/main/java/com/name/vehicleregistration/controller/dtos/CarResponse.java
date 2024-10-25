@@ -1,4 +1,4 @@
-package com.name.vehicleregistration.model.dtos;
+package com.name.vehicleregistration.controller.dtos;
 
 import lombok.*;
 

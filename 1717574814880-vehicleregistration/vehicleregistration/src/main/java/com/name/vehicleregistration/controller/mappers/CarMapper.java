@@ -1,29 +1,29 @@
 package com.name.vehicleregistration.controller.mappers;
 
-import com.name.vehicleregistration.model.CarModel;
-import com.name.vehicleregistration.model.dtos.CarRequest;
-import com.name.vehicleregistration.model.dtos.CarResponse;
+import com.name.vehicleregistration.model.Car;
+import com.name.vehicleregistration.controller.dtos.CarRequest;
+import com.name.vehicleregistration.controller.dtos.CarResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CarMapper {
-    public CarResponse toResponse (CarModel carModel){
+    public CarResponse toResponse (Car car){
         return CarResponse.builder()
-                .id(carModel.getId())
-                .brand(carModel.getBrand())
-                .model(carModel.getModel())
-                .milleage(carModel.getMilleage())
-                .price(carModel.getPrice())
-                .modelYear(carModel.getModelYear())
-                .description(carModel.getDescription())
-                .colour(carModel.getColour())
-                .fuelType(carModel.getFuelType())
-                .numDoors(carModel.getNumDoors())
+                .id(car.getId())
+                .brand(car.getBrand())
+                .model(car.getModel())
+                .milleage(car.getMilleage())
+                .price(car.getPrice())
+                .modelYear(car.getModelYear())
+                .description(car.getDescription())
+                .colour(car.getColour())
+                .fuelType(car.getFuelType())
+                .numDoors(car.getNumDoors())
                 .build();
     }
 
-    public CarModel toModel (CarRequest carRequest){
-        return CarModel.builder()
+    public Car toModel (CarRequest carRequest){
+        return Car.builder()
                 .brand(carRequest.getBrand())
                 .model(carRequest.getModel())
                 .milleage(carRequest.getMilleage())

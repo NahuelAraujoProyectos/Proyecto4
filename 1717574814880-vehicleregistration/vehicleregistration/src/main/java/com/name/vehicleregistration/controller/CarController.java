@@ -1,8 +1,8 @@
 package com.name.vehicleregistration.controller;
 
 import com.name.vehicleregistration.controller.mappers.CarMapper;
-import com.name.vehicleregistration.model.dtos.CarRequest;
-import com.name.vehicleregistration.model.dtos.CarResponse;
+import com.name.vehicleregistration.controller.dtos.CarRequest;
+import com.name.vehicleregistration.controller.dtos.CarResponse;
 import com.name.vehicleregistration.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +25,11 @@ public class CarController {
     @PostMapping("/")
     public ResponseEntity<?> addCar(@RequestBody CarRequest carRequest){
         try {
-            CarResponse carResponse = carMapper.toResponse(carService.addCar(carMapper.toModel(carRequest)));
+            CarResponse carResponse = carService.addCar(carRequest);
             log.info("Coche añadido correctamente");
             return ResponseEntity.ok(carResponse);
         } catch (Exception e) {
-            log.error("POST - Error en el servidor: " + e.getMessage());
+            log.error("POST - Error en el servidor: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor");
         }
     }
@@ -39,11 +39,11 @@ public class CarController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getCar(@PathVariable Integer id) {
         try {
-            CarResponse carResponse = carMapper.toResponse(carService.getCarById(id));
+            CarResponse carResponse = carService.getCarById(id);
             log.info("Coche hallado correctamente");
             return ResponseEntity.ok(carResponse);
         }catch (Exception e){
-            log.error("GET - Elemento no encontrado: " + e.getMessage());
+            log.error("GET - Elemento no encontrado: {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -53,12 +53,12 @@ public class CarController {
     @PutMapping("/{id}")
     public ResponseEntity<?> putCar (@PathVariable Integer id, @RequestBody CarRequest carRequest){
         try {
-            CarResponse carResponse = carMapper.toResponse(carService.updateCar(id, carMapper.toModel(carRequest)));
+            CarResponse carResponse = carService.updateCar(id, carRequest);
             log.info("Coche actualizado correctamente");
             return ResponseEntity.ok(carResponse);
         }
         catch (Exception e){
-            log.error("PUT - Elemento no encontrado: " + e.getMessage());
+            log.error("PUT - Elemento no encontrado: {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
@@ -67,13 +67,12 @@ public class CarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCar (@PathVariable Integer id){
         try {
-            CarResponse carResponse = carMapper.toResponse(carService.deleteById(id));
+            CarResponse carResponse = carService.deleteById(id);
             log.info("Coche eliminado correctamente");
             return ResponseEntity.ok(carResponse);
         } catch (Exception e){
-            log.error("DELETE - Elemento no encontrado: " + e.getMessage());
+            log.error("DELETE - Elemento no encontrado: {}", e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
-
 }
