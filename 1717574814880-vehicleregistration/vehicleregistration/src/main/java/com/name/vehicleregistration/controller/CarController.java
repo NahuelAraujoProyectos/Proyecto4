@@ -25,13 +25,13 @@ public class CarController {
 
     @Operation(summary = "Llamada para añadir vehículos")
     @PostMapping("/")
-    public ResponseEntity<?> addCar(@RequestBody CarRequest carRequest){
+    public ResponseEntity<?> addCar(@RequestBody CarRequest carRequest) {
         try {
-            CarResponse carResponse = carService.addCar(carRequest);
+            CarResponse carResponse = carMapper.toResponse(carService.addCar(carMapper.toModel(carRequest)));
             log.info("Coche añadido correctamente");
             return ResponseEntity.ok(carResponse);
         } catch (Exception e) {
-            log.error("POST - Error en el servidor: {}", e.getMessage());
+            log.error("POST - Error inesperado en el servidor: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el servidor");
         }
     }

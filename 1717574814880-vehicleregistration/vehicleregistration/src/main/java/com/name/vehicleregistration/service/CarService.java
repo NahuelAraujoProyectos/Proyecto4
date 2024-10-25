@@ -6,7 +6,7 @@ import com.name.vehicleregistration.model.Car;
 
 
 public interface CarService {
-    public CarResponse addCar(CarRequest carRequest);
+    public Car addCar(Car car);
     public CarResponse getCarById(Integer id);
     public CarResponse updateCar(Integer id, CarRequest carRequest);
     public CarResponse deleteById(Integer id);

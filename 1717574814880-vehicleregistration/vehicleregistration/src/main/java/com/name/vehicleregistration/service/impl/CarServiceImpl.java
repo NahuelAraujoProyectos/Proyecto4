@@ -4,6 +4,7 @@ import com.name.vehicleregistration.controller.dtos.CarRequest;
 import com.name.vehicleregistration.controller.dtos.CarResponse;
 import com.name.vehicleregistration.controller.mappers.CarMapper;
 import com.name.vehicleregistration.entity.CarEntity;
+import com.name.vehicleregistration.model.Car;
 import com.name.vehicleregistration.repository.CarRepository;
 import com.name.vehicleregistration.service.CarService;
 import com.name.vehicleregistration.service.converters.CarConverter;
@@ -25,9 +26,9 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarConverter carConverter;
 
-    public CarResponse addCar(CarRequest carRequest){
-        CarEntity carEntity = carRepository.save(carConverter.toEntity(carMapper.toModel(carRequest)));
-        return carMapper.toResponse(carConverter.toModel(carEntity));
+    public Car addCar(Car car){
+        CarEntity carEntity = carRepository.save(carConverter.toEntity(car));
+        return carConverter.toModel(carEntity);
     }
 
 
